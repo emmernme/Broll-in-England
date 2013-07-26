@@ -7,9 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BRPostsViewController.h"
 
 @interface BRAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+@property (strong, nonatomic) UINavigationController *navController;
+@property (strong, nonatomic) BRPostsViewController *postsView;
+
 
 @end

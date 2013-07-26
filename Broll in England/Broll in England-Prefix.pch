@@ -9,6 +9,25 @@
 #endif
 
 #ifdef __OBJC__
-    #import <UIKit/UIKit.h>
-    #import <Foundation/Foundation.h>
+	#import <UIKit/UIKit.h>
+	#import <Foundation/Foundation.h>
 #endif
+
+#define RGB(r, g, b) [UIColor colorWithRed:r/255.0f green:g/255.0f blue:b/255.0f alpha:1]
+#define RGBA(r, g, b, a) [UIColor colorWithRed:r/255.0f green:g/255.0f blue:b/255.0f alpha:a]
+
+#define AJAXURL @"http://brollinengland.com/wp-content/plugins/brollapp/ajax.php"
+
+#import <Foundation/Foundation.h>
+@interface NSString (URLEncoding)
+-(NSString *)urlEncodeUsingEncoding:(NSStringEncoding)encoding;
+@end
+@implementation NSString (URLEncoding)
+-(NSString *)urlEncodeUsingEncoding:(NSStringEncoding)encoding {
+	return (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL,
+															   (CFStringRef)self,
+															   NULL,
+															   (CFStringRef)@"!*'\"();:@&=+$,/?%#[]% ",
+															   CFStringConvertNSStringEncodingToEncoding(encoding)));
+}
+@end

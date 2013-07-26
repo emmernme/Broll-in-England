@@ -16,6 +16,18 @@
 		2008FCFB1799E078001EDFBC /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 2008FCFA1799E078001EDFBC /* Default.png */; };
 		2008FCFD1799E078001EDFBC /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2008FCFC1799E078001EDFBC /* Default@2x.png */; };
 		2008FCFF1799E078001EDFBC /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2008FCFE1799E078001EDFBC /* Default-568h@2x.png */; };
+		2008FD0A1799E497001EDFBC /* BRPostsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2008FD081799E497001EDFBC /* BRPostsViewController.m */; };
+		2008FD0D179A92A6001EDFBC /* BRPostsViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2008FD0C179A92A6001EDFBC /* BRPostsViewCell.xib */; };
+		2008FD10179A95DE001EDFBC /* BRPostsViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2008FD0F179A95DE001EDFBC /* BRPostsViewCell.m */; };
+		2008FD12179A982A001EDFBC /* bilde.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2008FD11179A982A001EDFBC /* bilde.jpg */; };
+		2008FD15179AC744001EDFBC /* BRGetData.m in Sources */ = {isa = PBXBuildFile; fileRef = 2008FD14179AC744001EDFBC /* BRGetData.m */; };
+		2008FD17179AC9E0001EDFBC /* GFSDidot-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2008FD16179AC9E0001EDFBC /* GFSDidot-Regular.ttf */; };
+		2008FD1B179AF361001EDFBC /* bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 2008FD1A179AF361001EDFBC /* bg.png */; };
+		2008FD1F179C622F001EDFBC /* BRSinglePostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2008FD1D179C622F001EDFBC /* BRSinglePostViewController.m */; };
+		2008FD20179C622F001EDFBC /* BRSinglePostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2008FD1E179C622F001EDFBC /* BRSinglePostViewController.xib */; };
+		20CA256D179DCA3D00195482 /* single.html in Resources */ = {isa = PBXBuildFile; fileRef = 20CA256C179DCA3D00195482 /* single.html */; };
+		20CA2571179DD74400195482 /* Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 20CA2570179DD74400195482 /* Base64.m */; };
+		20CA2573179DD7EE00195482 /* GFS Didot.woff in Resources */ = {isa = PBXBuildFile; fileRef = 20CA2572179DD7EE00195482 /* GFS Didot.woff */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +44,23 @@
 		2008FCFA1799E078001EDFBC /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		2008FCFC1799E078001EDFBC /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		2008FCFE1799E078001EDFBC /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		2008FD071799E497001EDFBC /* BRPostsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRPostsViewController.h; sourceTree = "<group>"; };
+		2008FD081799E497001EDFBC /* BRPostsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRPostsViewController.m; sourceTree = "<group>"; };
+		2008FD0C179A92A6001EDFBC /* BRPostsViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BRPostsViewCell.xib; sourceTree = "<group>"; };
+		2008FD0E179A95DE001EDFBC /* BRPostsViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRPostsViewCell.h; sourceTree = "<group>"; };
+		2008FD0F179A95DE001EDFBC /* BRPostsViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRPostsViewCell.m; sourceTree = "<group>"; };
+		2008FD11179A982A001EDFBC /* bilde.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bilde.jpg; sourceTree = "<group>"; };
+		2008FD13179AC744001EDFBC /* BRGetData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRGetData.h; sourceTree = "<group>"; };
+		2008FD14179AC744001EDFBC /* BRGetData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRGetData.m; sourceTree = "<group>"; };
+		2008FD16179AC9E0001EDFBC /* GFSDidot-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GFSDidot-Regular.ttf"; sourceTree = "<group>"; };
+		2008FD1A179AF361001EDFBC /* bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg.png; sourceTree = "<group>"; };
+		2008FD1C179C622F001EDFBC /* BRSinglePostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRSinglePostViewController.h; sourceTree = "<group>"; };
+		2008FD1D179C622F001EDFBC /* BRSinglePostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRSinglePostViewController.m; sourceTree = "<group>"; };
+		2008FD1E179C622F001EDFBC /* BRSinglePostViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BRSinglePostViewController.xib; sourceTree = "<group>"; };
+		20CA256C179DCA3D00195482 /* single.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = single.html; sourceTree = "<group>"; };
+		20CA256F179DD74400195482 /* Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base64.h; sourceTree = "<group>"; };
+		20CA2570179DD74400195482 /* Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Base64.m; sourceTree = "<group>"; };
+		20CA2572179DD7EE00195482 /* GFS Didot.woff */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GFS Didot.woff"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +97,7 @@
 		2008FCE71799E078001EDFBC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				20CA256E179DD74400195482 /* Base64 */,
 				2008FCE81799E078001EDFBC /* UIKit.framework */,
 				2008FCEA1799E078001EDFBC /* Foundation.framework */,
 				2008FCEC1799E078001EDFBC /* CoreGraphics.framework */,
@@ -80,6 +110,16 @@
 			children = (
 				2008FCF71799E078001EDFBC /* BRAppDelegate.h */,
 				2008FCF81799E078001EDFBC /* BRAppDelegate.m */,
+				2008FD071799E497001EDFBC /* BRPostsViewController.h */,
+				2008FD081799E497001EDFBC /* BRPostsViewController.m */,
+				2008FD1C179C622F001EDFBC /* BRSinglePostViewController.h */,
+				2008FD1D179C622F001EDFBC /* BRSinglePostViewController.m */,
+				2008FD13179AC744001EDFBC /* BRGetData.h */,
+				2008FD14179AC744001EDFBC /* BRGetData.m */,
+				2008FD0E179A95DE001EDFBC /* BRPostsViewCell.h */,
+				2008FD0F179A95DE001EDFBC /* BRPostsViewCell.m */,
+				2008FD0C179A92A6001EDFBC /* BRPostsViewCell.xib */,
+				2008FD1E179C622F001EDFBC /* BRSinglePostViewController.xib */,
 				2008FCEF1799E078001EDFBC /* Supporting Files */,
 			);
 			path = "Broll in England";
@@ -88,6 +128,8 @@
 		2008FCEF1799E078001EDFBC /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				2008FD1A179AF361001EDFBC /* bg.png */,
+				2008FD11179A982A001EDFBC /* bilde.jpg */,
 				2008FCF01799E078001EDFBC /* Broll in England-Info.plist */,
 				2008FCF11799E078001EDFBC /* InfoPlist.strings */,
 				2008FCF41799E078001EDFBC /* main.m */,
@@ -95,8 +137,20 @@
 				2008FCFA1799E078001EDFBC /* Default.png */,
 				2008FCFC1799E078001EDFBC /* Default@2x.png */,
 				2008FCFE1799E078001EDFBC /* Default-568h@2x.png */,
+				2008FD16179AC9E0001EDFBC /* GFSDidot-Regular.ttf */,
+				20CA256C179DCA3D00195482 /* single.html */,
+				20CA2572179DD7EE00195482 /* GFS Didot.woff */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		20CA256E179DD74400195482 /* Base64 */ = {
+			isa = PBXGroup;
+			children = (
+				20CA256F179DD74400195482 /* Base64.h */,
+				20CA2570179DD74400195482 /* Base64.m */,
+			);
+			path = Base64;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -155,6 +209,13 @@
 				2008FCFB1799E078001EDFBC /* Default.png in Resources */,
 				2008FCFD1799E078001EDFBC /* Default@2x.png in Resources */,
 				2008FCFF1799E078001EDFBC /* Default-568h@2x.png in Resources */,
+				2008FD0D179A92A6001EDFBC /* BRPostsViewCell.xib in Resources */,
+				2008FD12179A982A001EDFBC /* bilde.jpg in Resources */,
+				2008FD17179AC9E0001EDFBC /* GFSDidot-Regular.ttf in Resources */,
+				2008FD1B179AF361001EDFBC /* bg.png in Resources */,
+				2008FD20179C622F001EDFBC /* BRSinglePostViewController.xib in Resources */,
+				20CA256D179DCA3D00195482 /* single.html in Resources */,
+				20CA2573179DD7EE00195482 /* GFS Didot.woff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -167,6 +228,11 @@
 			files = (
 				2008FCF51799E078001EDFBC /* main.m in Sources */,
 				2008FCF91799E078001EDFBC /* BRAppDelegate.m in Sources */,
+				2008FD0A1799E497001EDFBC /* BRPostsViewController.m in Sources */,
+				2008FD10179A95DE001EDFBC /* BRPostsViewCell.m in Sources */,
+				2008FD15179AC744001EDFBC /* BRGetData.m in Sources */,
+				2008FD1F179C622F001EDFBC /* BRSinglePostViewController.m in Sources */,
+				20CA2571179DD74400195482 /* Base64.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -281,6 +347,7 @@
 				2008FD041799E078001EDFBC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

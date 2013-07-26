@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>%title% – Broll in England</title>
+		<style type="text/css">
+			/* Styles */
+			@font-face {
+				font-family: 'GFS Didot';
+				font-style: normal;
+				font-weight: 400;
+				src: local('GFS Didot Regular'), local('GFSDidot-Regular'), url("GFS Didot.woff") format('woff');
+			}
+			body {
+				font-family: "Helvetica Neue";
+				background: url("bg.png");
+			}
+			header, #content, footer {
+				margin: 0 10px;
+			}
+			#photo {
+				left:0;
+				right:0;
+				top:0;
+			}
+			header {
+				font-family: "GFS Didot";
+			}
+			#left {
+				display: inline-block;
+				float: left;
+				width: 50%;
+			}
+			#right {
+				display: inline-block;
+				float: right;
+				width: 50%;
+			}
+			footer {
+				display:none;
+			}
+			</style>
+	</head>
+	<body>
+		<div id="photo">
+			<img src="%thumb%" alt="%title%">
+		</div>
+		<header>
+			<h1 id="title">%title%</h1>
+			<p id="left">%date%</p><p id="right">%comments%</p>
+		</header>
+		<div id="content"></div>
+		<footer>
+			<div id="disqus_thread"></div>
+			<script type="text/javascript">
+				var disqus_shortname = 'brollinengland';
+				var disqus_identifier = '%ID% http://brollinengland.com/?p=%ID%';
+				(function() {
+				 var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+				 dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+				 (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+				 })();
+				</script>
+			<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+			<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+		</footer>
+	</body>
+</html>
