@@ -19,6 +19,7 @@
 }
 
 - (void)getPostsWithQuery:(NSDictionary *)query {
+	[self setMode:BRGetDataModePosts];
 	NSMutableString *postData = [[NSMutableString alloc] init];
 	[query enumerateKeysAndObjectsUsingBlock:^(NSString* key, NSString* obj, BOOL *stop) {
 		[postData appendFormat:@"%@=%@&", [key urlEncodeUsingEncoding:NSUTF8StringEncoding], [obj urlEncodeUsingEncoding:NSUTF8StringEncoding]];
@@ -26,26 +27,67 @@
 	NSLog(@"postData: %@", postData);
 	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:AJAXURL]];
 	[request setHTTPMethod:@"POST"];
-	[request setValue:@"text/plain; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+	[request setValue:@"application/x-www-form-urlencoded; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPBody:[postData dataUsingEncoding:NSUTF8StringEncoding]];
 	self.connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES];
 }
 - (void)getPostWithID:(int)ID {
-	
+	[self setMode:BRGetDataModePost];
+	NSLog(@"Getting post with ID %d", ID);
+	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:AJAXURL]];
+	[request setHTTPMethod:@"POST"];
+	[request setValue:@"application/x-www-form-urlencoded; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPBody:[[NSString stringWithFormat:@"action=post&id=%d&", ID] dataUsingEncoding:NSUTF8StringEncoding]];
+	self.connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES];
 }
-- (void)getCategories {
-	
+- (void)getMenu {
+	[self setMode:BRGetDataModeMenu];
+	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:AJAXURL]];
+	[request setHTTPMethod:@"POST"];
+	[request setValue:@"application/x-www-form-urlencoded; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPBody:[@"action=menu" dataUsingEncoding:NSUTF8StringEncoding]];
+	self.connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES];
 }
--(void)sendData:(NSDictionary *)data {
-	if (self.delegate && [self.delegate respondsToSelector:@selector(recieveData:)]){
-		[self.delegate recieveData:data];
-	} else if ([self.delegate respondsToSelector:@selector(recieveError:)]){
-		[self.delegate recieveError:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:BRGetDataErrorIncompleteDelegate] forKey:@"code"]];
+
+-(id)validateData:(NSData *)data {
+	NSError *error = nil;
+	NSString *string = [[NSString alloc] initWithData:data encoding:NSStringEncodingConversionAllowLossy];
+	NSLog(@"Data: %@", string);
+	if ([string isEqualToString:@"-1"]){
+		if (self.delegate)
+			[self.delegate recieveError:@"Nettverksfeil" fromGetData:self];
+		return nil;
 	}
+	id JSON = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
+	if ([JSON isKindOfClass:[NSDictionary class]] && [JSON objectForKey:@"error"]){
+		if (self.delegate)
+			[self.delegate recieveError:[JSON objectForKey:@"error"] fromGetData:self];
+		return nil;
+	} else if (error){
+		if (self.delegate)
+			[self.delegate recieveError:@"Nettverksfeil" fromGetData:self];
+		return nil;
+	}
+	if (self.mode == BRGetDataModePost){
+		string = [string substringWithRange:NSMakeRange(2, string.length - 4)];
+		return string;
+	}
+	if (self.mode == BRGetDataModePosts || self.mode == BRGetDataModeMenu)
+		return JSON;
+	if (self.mode == BRGetDataModeToken)
+		return [JSON objectForKey:@"result"];
+	return nil;
 }
--(BOOL)validateData:(NSDictionary *)data {
-	// TODO: Validate data
-	return YES;
+
+-(void)registerPushToken:(NSString *)token {
+	[self setMode:BRGetDataModeToken];
+	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:AJAXURL]];
+	[request setHTTPMethod:@"POST"];
+	[request setValue:@"application/x-www-form-urlencoded; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+	
+	NSString *body = [NSString stringWithFormat:@"action=register_push&name=%@&token=%@&", [[UIDevice currentDevice] name], token];
+    [request setHTTPBody:[body dataUsingEncoding:NSUTF8StringEncoding]];
+	self.connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES];
 }
 
 #pragma mark NSURLConnection Delegate Methods
@@ -67,11 +109,23 @@
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
     // The request is complete and data has been received
     // You can parse the stuff in your instance variable now
-    NSLog(@"Got data: %@", [[NSString alloc] initWithData:self.responseData encoding:NSStringEncodingConversionAllowLossy]);
+	id data = [self validateData:self.responseData];
+	if (self.mode == BRGetDataModeToken){
+		if (data){
+			[self.delegate recieveData:@"true" fromGetData:self];
+		} else {
+			[self.delegate recieveError:@"false" fromGetData:self];
+		}
+	}
+	if (data && self.delegate)
+		[self.delegate recieveData:data fromGetData:self];
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
     // The request has failed for some reason!
     // Check the error var
+	if (self.delegate) {
+		[self.delegate recieveError:[error description] fromGetData:self];
+	}
 }
 @end

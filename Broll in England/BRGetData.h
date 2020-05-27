@@ -7,29 +7,38 @@
 //
 
 #import <Foundation/Foundation.h>
-
+@class BRGetData;
 @protocol BRGetDataDelegate <NSObject, NSURLConnectionDelegate, NSURLConnectionDataDelegate>
 @required
-- (void)recieveData:(NSDictionary *)data;
-- (void)recieveError:(NSDictionary *)error;
+- (void)recieveData:(id)data fromGetData:(BRGetData *)getData;
+- (void)recieveError:(NSString *)error fromGetData:(BRGetData *)getData;
 @end
+@protocol BRGetDataTokenDelegate <NSObject, BRGetDataDelegate>
+@required
+- (void)tokenSuccess;
+- (void)tokenError:(NSString *)error;
+@end
+typedef enum {
+	BRGetDataModePosts,
+	BRGetDataModePost,
+	BRGetDataModeMenu,
+	BRGetDataModeToken
+} BRGetDataMode;
 
 @interface BRGetData : NSObject
-@property (nonatomic, assign) id <BRGetDataDelegate> delegate;
+@property (nonatomic, weak) id <BRGetDataDelegate> delegate;
 @property (nonatomic, strong) NSURLConnection *connection;
 @property (nonatomic, strong) NSMutableData	*responseData;
+@property (nonatomic) BRGetDataMode mode;
 
 - (id)initWithDelegate:(id <BRGetDataDelegate>)delegate;
 - (void)getPostsWithQuery:(NSDictionary *)query;
 - (void)getPostWithID:(int)ID;
-- (void)getCategories;
-- (void)sendData:(NSDictionary *)data;
-- (BOOL)validateData:(NSDictionary *)data;
+- (void)getMenu;
+- (id)validateData:(NSData *)data;
+
+-(void)registerPushToken:(NSString *)token;
+
 
 
 @end
-
-enum BRGetDataError {
-	BRGetDataErrorIncompleteDelegate = 1,
-	BRGetDataErrorServerDown = 2
-};

@@ -4,19 +4,30 @@
 
 #import <Availability.h>
 
-#ifndef __IPHONE_3_0
-#warning "This project uses features only available in iOS SDK 3.0 and later."
+#ifndef __IPHONE_5_0
+#warning "This project uses features only available in iOS SDK 5.0 and later."
 #endif
 
 #ifdef __OBJC__
 	#import <UIKit/UIKit.h>
 	#import <Foundation/Foundation.h>
+	#import <SystemConfiguration/SystemConfiguration.h>
+	#import <MobileCoreServices/MobileCoreServices.h>
 #endif
 
 #define RGB(r, g, b) [UIColor colorWithRed:r/255.0f green:g/255.0f blue:b/255.0f alpha:1]
 #define RGBA(r, g, b, a) [UIColor colorWithRed:r/255.0f green:g/255.0f blue:b/255.0f alpha:a]
 
 #define AJAXURL @"http://brollinengland.com/wp-content/plugins/brollapp/ajax.php"
+
+#define BRRainbowModeChanged @"rainbowchanged"
+#define BRRainbowMode @"rainbowmode"
+#define BRDonated @"donated"
+
+#define BRIsRainbow ([[NSUserDefaults standardUserDefaults] objectForKey:BRRainbowMode] && [[[NSUserDefaults standardUserDefaults] objectForKey:BRRainbowMode] isEqualToString:@"true"])
+
+#define BRTitleTextAttributes @{ NSForegroundColorAttributeName: [UIColor blackColor], NSShadowAttributeName: shadow, NSFontAttributeName: [UIFont fontWithName:@"UnifrakturMaguntia" size:23],}
+
 
 #import <Foundation/Foundation.h>
 @interface NSString (URLEncoding)

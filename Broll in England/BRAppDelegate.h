@@ -7,13 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BRPostsViewController.h"
+#import "BRMenuViewController.h"
+#import "IIViewDeckController.h"
+#import "BRQuickAlertView.h"
 
-@interface BRAppDelegate : UIResponder <UIApplicationDelegate>
+@interface BRAppDelegate : UIResponder <UIApplicationDelegate, BRGetDataDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) UINavigationController *navController;
-@property (strong, nonatomic) BRPostsViewController *postsView;
+@property (strong, nonatomic) BRMenuViewController *menuView;
+@property (strong, nonatomic) IIViewDeckController *deckController;
+@property (strong, nonatomic) id thing;
 
+-(void)toggleRainbow;
 
 @end

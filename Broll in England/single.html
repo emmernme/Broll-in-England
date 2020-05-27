@@ -2,28 +2,44 @@
 <html>
 	<head>
 		<title>%title% – Broll in England</title>
+		<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0" />
+		<meta charset="utf-8">
 		<style type="text/css">
 			/* Styles */
+			* {
+				box-sizing: border-box;
+			}
+			html {
+				-webkit-text-size-adjust: 100%;
+			}
+			html,body {
+				min-height: 100%;
+			}
 			@font-face {
-				font-family: 'GFS Didot';
+				font-family: 'UnifrakturMaguntia';
 				font-style: normal;
 				font-weight: 400;
-				src: local('GFS Didot Regular'), local('GFSDidot-Regular'), url("GFS Didot.woff") format('woff');
+				src: local('UnifrakturMaguntia Book'), local('UnifrakturMaguntia-Book'), url("UnifrakturMaguntia-Book") format('ttf');
 			}
 			body {
 				font-family: "Helvetica Neue";
-				background: url("bg.png");
-			}
-			header, #content, footer {
-				margin: 0 10px;
-			}
-			#photo {
-				left:0;
-				right:0;
-				top:0;
+				font-weight: lighter;
+				background-color:transparent;
+				margin: 0;
+				font-size: 15px;
+				width: 100%;
+				color: rgb(0,0,0);
 			}
 			header {
-				font-family: "GFS Didot";
+				overflow:auto;
+				font-family: "Poiret One";
+			}
+			header a {
+				color: inherit;
+				text-decoration: none;
+			}
+			h1 {
+				font-weight: normal;
 			}
 			#left {
 				display: inline-block;
@@ -34,34 +50,109 @@
 				display: inline-block;
 				float: right;
 				width: 50%;
+				text-align: right;
 			}
-			footer {
-				display:none;
+			
+			header, #content, footer {
+				margin: 0 10px;
+				overflow: auto;
+			}
+			#title {
+				margin: 10px 0;
+				text-align: center;
+			}
+			header p {
+				margin: 0;
+			}
+			#content * {
+				max-width: 100%;
+				height: auto;
+				text-overflow: ellipsis;
+				word-wrap: break-word;
+			}
+			#content a {
+				color: #36659f;
+			}
+			#content {
+				min-height: 50%;
+			}
+			#photo {
+				width:100%;
+				height:180px;
+				background-image:url(%thumb%);
+				background-size: cover;
+				background-position: center;
+			}
+			.wp-caption.alignnone {
+				margin: 5px 20px 20px 0;
+			}
+			.wp-caption {
+				background: white;
+				border: 1px solid #C0C0C0;
+				-webkit-box-shadow: 0px 0px 3px rgba(0,0,0,0.25);
+				box-shadow: 0px 0px 3px rgba(0,0,0,0.25);
+				-webkit-box-sizing: border-box;
+				box-sizing: border-box;
+				max-width: 100%;
+				padding: 5px 5px 10px 5px;
+				text-align: center;
+			}
+			p.wp-caption-text {
+				color: #000000;
+				font-size: 13px;
+				font-style: italic;
+				line-height: 1;
+				margin: 0;
+				padding: 4px 5px 0 5px;
 			}
 			</style>
+			<script type="text/javascript">
+				var getImages = function(){
+					var a=document.getElementsByTagName('img');
+					var b=[];
+					for(var i in a){
+						b.push(a[i].src)
+					}
+					return JSON.stringify(b);
+				}
+			var replaceDoubleSlashes = function(){
+				var t = document.documentElement.innerHTML;
+				var re = /([^\:])(\/\/)/g;
+				t = t.replace(re, '$1http:$2');
+				document.documentElement.innerHTML = t;
+			}
+			</script>
 	</head>
 	<body>
-		<div id="photo">
-			<img src="%thumb%" alt="%title%">
-		</div>
+		<a href="%thumbURL%"><div id="photo"></div></a>
 		<header>
 			<h1 id="title">%title%</h1>
-			<p id="left">%date%</p><p id="right">%comments%</p>
+			<p id="left">%date%</p><p id="right"><a href="#disqus_thread">%comments%</a></p>
 		</header>
 		<div id="content"></div>
 		<footer>
-			<div id="disqus_thread"></div>
-			<script type="text/javascript">
-				var disqus_shortname = 'brollinengland';
-				var disqus_identifier = '%ID% http://brollinengland.com/?p=%ID%';
-				(function() {
-				 var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-				 dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-				 (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-				 })();
+			<p>Husk å logge inn før du kommenterer (eller kommenter som gjest)!</p>
+			<div id="disqus_thread">
+				<script type="text/javascript">
+					/* <![CDATA[ */
+					var disqus_shortname = 'brollinengland';
+					var disqus_identifier = '%ID% %link%';
+					(function() {
+					 var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+					 dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+					 (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+					 })();
+					var reset_disqus = function(){
+						DISQUS.reset({
+									 reload: true,
+									 config: function () {
+									 this.page.identifier = disqus_identifier;
+									 }});
+					};
+					window.onorientationchange = function() { reset_disqus(); };
+					/* ]]> */
 				</script>
-			<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-			<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+			</div>
 		</footer>
 	</body>
 </html>

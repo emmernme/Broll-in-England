@@ -7,6 +7,8 @@
 //
 
 #import "BRAppDelegate.h"
+#import "IISideController.h"
+#import "MWPhotoBrowser.h"
 
 @implementation BRAppDelegate
 
@@ -14,38 +16,93 @@
 {
 	self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	self.navController = [[UINavigationController alloc] init];
-	self.postsView = [[BRPostsViewController alloc] initWithQuery:nil];
-	// Override point for customization after application launch.
-	[self.window setRootViewController:self.navController];
-	[self.window makeKeyAndVisible];
-	[self.navController pushViewController:self.postsView animated:FALSE];
-	
+	self.menuView = [[BRMenuViewController alloc] init];
+	IISideController *resizeMenuView = [[IISideController alloc] initWithViewController:self.menuView];
 
+	self.deckController = [[IIViewDeckController alloc] initWithCenterViewController:self.navController leftViewController:resizeMenuView];
+	[self.menuView setViewDeckController:self.deckController];
+	[self.window setRootViewController:self.deckController];
+	[self.window makeKeyAndVisible];
 	
-	UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
-	[title setFont:[UIFont fontWithName:@"GFS Didot" size:22]];
-	[title setTextColor:[UIColor colorWithRed:85.0f/255.0f green:85.0f/255.0f blue:85.0f/255.0f alpha:1]];
-	[title setText:@"Broll in England"];
-	[title setTextAlignment:NSTextAlignmentCenter];
-	[title setBackgroundColor:[UIColor clearColor]];
-	[title setCenter:CGPointMake(160, 22)];
-	[self.navController.navigationBar addSubview:title];
-	[self.navController.navigationBar setTintColor:[UIColor colorWithRed:244.0f/255.0f green:244.0f/255.0f blue:244.0f/255.0f alpha:0.3]];
-	[self.navController.navigationBar setTranslucent:YES];
-	
-	UIBarButtonItem *info = [[UIBarButtonItem alloc] initWithCustomView:[UIButton buttonWithType:UIButtonTypeInfoDark]];
-	[info.customView setFrame:CGRectMake(info.customView.frame.origin.x, info.customView.frame.origin.x, info.customView.frame.size.width + 20, info.customView.frame.size.height)];
-	UIBarButtonItem *cats = [[UIBarButtonItem alloc] initWithCustomView:[UIButton buttonWithType:UIButtonTypeInfoDark]];
-	[cats.customView setFrame:info.customView.frame];
-	[self.postsView.navigationItem setRightBarButtonItem:info];
-	[self.postsView.navigationItem setLeftBarButtonItem:cats];
-	
+	[self.deckController setParallaxAmount:0.85];
+	[self.deckController setLeftSize:50];
+	[self.deckController setCenterhiddenInteractivity:IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose];
+
+	[self.navController pushViewController:self.menuView.postsView animated:FALSE];
+
+	[self.navController.navigationBar setUserInteractionEnabled:YES];
+	[self.navController.navigationBar setTranslucent:NO];
+
+	NSShadow *shadow = [NSShadow new];
+	[shadow setShadowColor: [UIColor whiteColor]];
+	[shadow setShadowOffset:CGSizeZero];
+#ifdef __IPHONE_7_0
+	[[UINavigationBar appearance] setBarTintColor:RGBA(245,245,245, 1)];
+#else
+	[[UINavigationBar appearance] setTintColor:RGBA(245,245,245, 1)];
+#endif
+	[[UINavigationBar appearance] setTitleTextAttributes:BRTitleTextAttributes];
+	[application registerForRemoteNotificationTypes: (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+	[application setApplicationIconBadgeNumber:0];
+
+	[self toggleRainbow];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(toggleRainbow) name:BRRainbowModeChanged object:nil];
+
 	return YES;
 }
-
-- (void)showInfoView {
+- (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken {
+	if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"isPushRegistered"] isEqualToString:@"true"])
+		return;
 	
-	return;
+	NSString *newToken = [deviceToken description];
+	newToken = [newToken stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
+	newToken = [newToken stringByReplacingOccurrencesOfString:@" " withString:@""];
+	BRGetData *getData = [[BRGetData alloc] initWithDelegate:self];
+	NSLog(@"Got token: %@", newToken);
+	[getData registerPushToken:newToken];
+}
+
+- (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error {
+	NSLog(@"Failed to get token, error: %@", error);
+}
+
+-(void)recieveData:(id)data fromGetData:(BRGetData *)getData {
+	[[NSUserDefaults standardUserDefaults] setObject:@"true" forKey:@"isPushRegistered"];
+}
+-(void)recieveError:(NSString *)error fromGetData:(BRGetData *)getData {
+	[[NSUserDefaults standardUserDefaults] setObject:@"false" forKey:@"isPushRegistered"];
+	NSLog(@"Did not register push notification. Server error %@", error);
+	[BRQuickAlertView alertViewWithTitle:@"Oops..." message:[NSString stringWithFormat:@"Kunne ikke registrere push-notifications. %@", error] cancel:@"Ålreit, jeg prøver senere." buttons:nil];
+}
+
+- (void)toggleRainbow {/*
+	NSShadow *shadow = [NSShadow new];
+	[shadow setShadowColor: [UIColor clearColor]];
+	[shadow setShadowOffset: CGSizeMake(0.0f, 0.0f)];
+	if (BRIsRainbow){
+		struct CGImage *image = CGImageCreateWithImageInRect([[UIImage imageNamed:@"rainbow2"] CGImage], CGRectMake(0, 120, 320, 42));
+		[[UINavigationBar appearance] setBackgroundImage:[UIImage imageWithCGImage:image] forBarMetrics:UIBarMetricsDefault];
+		[(UINavigationBar *)[self.navController.navigationBar.superview viewWithTag:1234] setBackgroundImage:[UIImage imageWithCGImage:image] forBarMetrics:UIBarMetricsDefault];
+		CGImageRelease(image);
+
+		NSDictionary *textAttributes = @{ NSForegroundColorAttributeName: [UIColor blackColor], NSShadowAttributeName: shadow,
+										  NSFontAttributeName: [UIFont fontWithName:@"UnifrakturMaguntia" size:23], };
+		[[UINavigationBar appearance] setTitleTextAttributes:textAttributes];
+		[self.navController.navigationBar setTitleTextAttributes:textAttributes];
+	} else {
+		self.thing = [self.navController.navigationBar viewWithTag:1234];
+		[(UINavigationBar *)[self.navController.navigationBar viewWithTag:1234] setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
+		[[UINavigationBar appearance] setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
+#ifdef __IPHONE_7_0
+		[[UINavigationBar appearance] setBarTintColor:RGBA(245,245,245, 1)];
+#else
+		[[UINavigationBar appearance] setTintColor:RGBA(245,245,245, 1)];
+#endif
+		NSDictionary *textAttributes = @{ NSForegroundColorAttributeName: [UIColor blackColor], NSShadowAttributeName: shadow,
+										  NSFontAttributeName: [UIFont fontWithName:@"UnifrakturMaguntia" size:23], };
+		[[UINavigationBar appearance] setTitleTextAttributes:textAttributes];
+		[self.navController.navigationBar setTitleTextAttributes:textAttributes];
+	}*/
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
